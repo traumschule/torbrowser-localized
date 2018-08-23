@@ -6,20 +6,23 @@
 # Copyright 2017 The Tor Project.  See LICENSE for licensing information.
 
 complain_dialog_title="Tor Browser"
+TEXTDOMAINDIR=locale
+TEXTDOMAIN=start-tor-browser
+stop=$"Exiting."
 
 # First, make sure DISPLAY is set.  If it isn't, we're hosed; scream
 # at stderr and die.
 if [ "x$DISPLAY" = "x" ]; then
-    echo "$complain_dialog_title must be run within the X Window System." >&2
-    echo "Exiting." >&2
+    printf "%s %s\n$stop\n" "$complain_dialog_title" \
+     $"must be run within the X Window System." >&2
     exit 1
 fi
 
 # Second, make sure this script wasn't started as 'sh start-tor-browser' or
 # similar.
 if [ "x$BASH" = "x" ]; then
-    echo "$complain_dialog_title should be started as './start-tor-browser'"
-    echo "Exiting." >&2
+    printf "%s %s './start-tor-browser'\n$stop\n" "$complain_dialog_title" \
+     $"should be started as"
     exit 1;
 fi
 
@@ -92,22 +95,31 @@ complain () {
 }
 
 if [ "`id -u`" -eq 0 ]; then
-	complain "The Tor Browser Bundle should not be run as root.  Exiting."
+        msg=$(printf "%s %s $stop" "$complain_dialog_title" \
+         $"should not be run as root.")
+	complain "$msg"
 	exit 1
 fi
 
 if ! grep -q '^flags\s*:.* sse2' /proc/cpuinfo; then
-        complain "Tor Browser requires a CPU with SSE2 support.  Exiting."
+        msg=$(printf "%s %s $stop" "$complain_dialog_title" \
+         $"requires a CPU with SSE2 support.")
+        complain "$msg"
         exit 1
 fi
 
 tbb_usage () {
-    printf "\nTor Browser Script Options\n"
-    printf "  --verbose         Display Tor and Firefox output in the terminal\n"
-    printf "  --log [file]      Record Tor and Firefox output in file (default: tor-browser.log)\n"
-    printf "  --detach          Detach from terminal and run Tor Browser in the background.\n"
-    printf "  --register-app    Register Tor Browser as a desktop app for this user\n"
-    printf "  --unregister-app  Unregister Tor Browser as a desktop app for this user\n"
+    printf "\n%s %s\n" "$complain_dialog_title" $"Script Options"
+    printf "  --verbose         %s\n" \
+     $"Display Tor and Firefox output in the terminal"
+    printf "  --log [file]      %s: tor-browser.log)\n" \
+     $"Record Tor and Firefox output in file (default"
+    printf "  --detach          %s\n" \
+     $"Detach from terminal and run Tor Browser in the background."
+    printf "  --register-app    %s\n" \
+     $"Register Tor Browser as a desktop app for this user"
+    printf "  --unregister-app  %s\n" \
+     $"Unregister Tor Browser as a desktop app for this user"
 }
 log_output=0
 show_output=0
@@ -115,6 +127,7 @@ detach=0
 show_usage=0
 register_desktop_app=0
 logfile=/dev/null
+logstr=$(printf $"Logging %s debug information to" "$complain_dialog_title")
 while :
 do
     case "$1" in
@@ -134,14 +147,14 @@ do
           ;;
       -l | --log)
           if [ -z "$2" -o "${2:0:1}" == "-" ]; then
-             printf "Logging Tor Browser debug information to tor-browser.log\n"
+             printf "$logstr tor-browser.log\n"
              logfile="../tor-browser.log"
           elif [ "${2:0:1}" == "/" -o "${2:0:1}" == "~" ]; then
-             printf "Logging Tor Browser debug information to %s\n" "$2"
+             printf "$logstr %s\n"  "$2"
              logfile="$2"
              shift
           else
-             printf "Logging Tor Browser debug information to %s\n" "$2"
+             printf "$logstr %s\n"  "$2"
              logfile="../$2"
              shift
           fi
@@ -212,7 +225,7 @@ if [ -L "$myname" ]; then
 		myname="`readlink -f "$myname" 2>/dev/null`"
 		if [ "$?" -ne 0 ]; then
 			# Ugh.
-			complain "start-tor-browser cannot be run using a symlink on this operating system."
+			complain $"start-tor-browser cannot be run using a symlink on this operating system."
 		fi
 	fi
 fi
@@ -226,7 +239,7 @@ test -d "$mydir" && cd "$mydir"
 if [ ! "${PWD}" ]; then
 	# "hacking around some braindamage"
 	PWD="`pwd`"
-	surveysays="This system has a messed up shell.\n"
+	surveysays=$"This system has a messed up shell.\n"
 fi
 
 # This is a fix for an ibus issue on some Linux systems. See #9353 for more
@@ -247,7 +260,8 @@ if [ "$register_desktop_app" -eq 1 ]; then
 	mkdir -p "$HOME/.local/share/applications/"
 	cp ../start-tor-browser.desktop "$HOME/.local/share/applications/"
 	update-desktop-database "$HOME/.local/share/applications/"
-	printf "Tor Browser has been registered as a desktop app for this user in ~/.local/share/applications/\n"
+	printf "%s %s ~/.local/share/applications/\n" "$complain_dialog_title" \
+         $"has been registered as a desktop app for this user in"
 	exit 0
 fi
 
@@ -255,9 +269,11 @@ if [ "$register_desktop_app" -eq -1 ]; then
 	if [ -e "$HOME/.local/share/applications/start-tor-browser.desktop" ]; then
 		rm -f "$HOME/.local/share/applications/start-tor-browser.desktop"
 		update-desktop-database "$HOME/.local/share/applications/"
-		printf "Tor Browser has been removed as a user desktop app (from ~/.local/share/applications/)\n"
+		printf "%s %s (from ~/.local/share/applications/)\n" "$complain_dialog_title" \
+                 $"has been removed as a user desktop app"
 	else
-		printf "Tor Browser does not appear to be a desktop app (not present in ~/.local/share/applications/)\n"
+		printf "%s %s ~/.local/share/applications/)\n" "$complain_dialog_title" \
+                 $"does not appear to be a desktop app (not present in"
 	fi
 	exit 0
 fi
@@ -269,7 +285,7 @@ SYSARCHITECTURE=$(getconf LONG_BIT)
 TORARCHITECTURE=$(expr "$(file TorBrowser/Tor/tor)" : '.*ELF \([[:digit:]]*\)')
 
 if [ $SYSARCHITECTURE -ne $TORARCHITECTURE ]; then
-   complain "Wrong architecture? 32-bit vs. 64-bit."
+   complain $"Wrong architecture? 32-bit vs. 64-bit."
    exit 1
 fi
 
@@ -287,10 +303,10 @@ function setControlPortPasswd() {
     fi
 
     if test "${ctrlPasswd:0:1}" = $'\"'; then  # First 2 chars were '"
-        printf "Using system Tor process.\n"
+        printf $"Using system Tor process.\n"
         export TOR_CONTROL_PASSWD
     else
-        complain "There seems to have been a quoting problem with your \
+        complain $"There seems to have been a quoting problem with your \
 TOR_CONTROL_PASSWD environment variable."
         cat <<EOF
 
