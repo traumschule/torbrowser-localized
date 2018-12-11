@@ -8,11 +8,11 @@ msgstr "muss in einem X Window System ausgeführt werden."
 
 #: Browser/start-tor-browser:25
 msgid "should be started as"
-msgstr "sollte gestartet werden mit"
+msgstr "sollte gestartet werden als"
 
 #: Browser/start-tor-browser:98
 msgid "should not be run as root."
-msgstr "sollte nicht von root gestart werden"
+msgstr "sollte nicht von root gestart werden."
 
 #: Browser/start-tor-browser:105
 msgid "requires a CPU with SSE2 support."
@@ -32,15 +32,15 @@ msgstr "Speichere Ausgabe von Tor und Firefox in Datei (Standard"
 
 #: Browser/start-tor-browser:118
 msgid "Detach from terminal and run Tor Browser in the background."
-msgstr "Entkopple vom Terminal und starte Tor Browser im Hintergrund"
+msgstr "Entkopple vom Terminal und starte Tor Browser im Hintergrund."
 
 #: Browser/start-tor-browser:120
 msgid "Register Tor Browser as a desktop app for this user"
-msgstr "Registriere Tor Browser als Desktop-Anwendung"
+msgstr "Registriere Tor Browser als Desktop-Anwendung in diesem Konto"
 
 #: Browser/start-tor-browser:122
 msgid "Unregister Tor Browser as a desktop app for this user"
-msgstr "Deregistriere Tor Browser als Desktop-Anwendung"
+msgstr "Deregistriere Tor Browser als Desktop-Anwendung in diesem Konto"
 
 #: Browser/start-tor-browser:130
 msgid "Logging %s debug information to"
@@ -50,16 +50,15 @@ msgstr "Speichere %s Debug-Informationen in"
 msgid ""
 "start-tor-browser cannot be run using a symlink on this operating system."
 msgstr ""
-"start-tor-browser kann auf diesem Betriebssystemnicht per Symlink gestartet "
-"werden"
+"start-tor-browser kann auf diesem Betriebssystem nicht per Symlink gestartet werden."
 
 #: Browser/start-tor-browser:242
-msgid "This system has a messed up shell.\\n"
-msgstr "Dieses System hat eine kaputte Shell.\\n"
+msgid "This system has a messed up shell."
+msgstr "Dieses System hat eine kaputte Shell."
 
 #: Browser/start-tor-browser:264
 msgid "has been registered as a desktop app for this user in"
-msgstr "wurde als Desktop-Anwendung registriert"
+msgstr "wurde für dieses Konto als Desktop-Anwendung registriert"
 
 #: Browser/start-tor-browser:273
 msgid "has been removed as a user desktop app"
@@ -74,16 +73,14 @@ msgid "Wrong architecture? 32-bit vs. 64-bit."
 msgstr "Falsche Architektur? 32-bit vs. 64-bit."
 
 #: Browser/start-tor-browser:306
-msgid "Using system Tor process.\\n"
-msgstr "Benutze Tor-System-Prozess.\\n"
+msgid "Using system Tor process."
+msgstr "Benutze System-Tor-Prozess."
 
 #: Browser/start-tor-browser:309
 msgid ""
-"There seems to have been a quoting problem with your TOR_CONTROL_PASSWD "
-"environment variable."
+"There seems to have been a quoting problem with your TOR_CONTROL_PASSWD environment variable."
 msgstr ""
-"Es scheint ein Problem beim Angeben der Umgebungsvariable TOR_CONTROL_PASSWD "
-"zu geben."
+"Es scheint ein Problem beim Angeben der Umgebungsvariable TOR_CONTROL_PASSWD zu geben."
 
 #~ msgid "Logging %s debug information to tor-browser.log\\n"
 #~ msgstr "Speichere %s Debug-Informationen in tor-browser.log\\n"

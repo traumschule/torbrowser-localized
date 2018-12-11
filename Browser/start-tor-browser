@@ -239,7 +239,7 @@ test -d "$mydir" && cd "$mydir"
 if [ ! "${PWD}" ]; then
 	# "hacking around some braindamage"
 	PWD="`pwd`"
-	surveysays=$"This system has a messed up shell.\n"
+	surveysays=$"This system has a messed up shell."."\n"
 fi
 
 # This is a fix for an ibus issue on some Linux systems. See #9353 for more
@@ -303,7 +303,7 @@ function setControlPortPasswd() {
     fi
 
     if test "${ctrlPasswd:0:1}" = $'\"'; then  # First 2 chars were '"
-        printf $"Using system Tor process.\n"
+        printf "%s\n" $"Using system Tor process."
         export TOR_CONTROL_PASSWD
     else
         complain $"There seems to have been a quoting problem with your \
