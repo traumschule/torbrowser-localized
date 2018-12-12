@@ -95,16 +95,12 @@ complain () {
 }
 
 if [ "`id -u`" -eq 0 ]; then
-        msg=$(printf "%s %s $stop" "$complain_dialog_title" \
-         $"should not be run as root.")
-	complain "$msg"
+        complain $"$complain_dialog_title should not be run as root. $stop"
 	exit 1
 fi
 
 if ! grep -q '^flags\s*:.* sse2' /proc/cpuinfo; then
-        msg=$(printf "%s %s $stop" "$complain_dialog_title" \
-         $"requires a CPU with SSE2 support.")
-        complain "$msg"
+        complain $"$complain_dialog_title requires a CPU with SSE2 support. $stop"
         exit 1
 fi
 
